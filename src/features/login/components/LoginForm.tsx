@@ -14,7 +14,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export default function LoginForm() {
+interface LoginFormProps{
+    onSubmit: () => void;
+}
+
+export default function LoginForm(props: LoginFormProps) {
 
     const {
         register,
@@ -24,8 +28,8 @@ export default function LoginForm() {
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log("Valid!", data);
+    const onSubmit = () => {
+        props.onSubmit();
     };
 
     return (
