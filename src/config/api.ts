@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEFAULT_CONFIG = {
     headers: {
@@ -15,7 +17,9 @@ export const apiFetch = async <T = any>(
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => "");
-      throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
+      const message = JSON.parse(errorText);
+      toast.error(message?.message || "An error occurred");
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     try {
@@ -24,7 +28,7 @@ export const apiFetch = async <T = any>(
     } catch (err: any) {
       throw new Error("Error parsing JSON response: " + err.message);
     }
-
+ 
   } catch (err: any) {
     console.error("Fetch error:", err);
     throw err;
