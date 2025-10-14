@@ -2,6 +2,7 @@
 import Button from "@/components/ui/Button";
 import Form from "@/components/ui/Form";
 import Input from "@/components/ui/Input";
+import { loginRequest } from "@/types/loginRequest.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -14,7 +15,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export default function LoginForm() {
+interface LoginFormProps{
+    onSubmit: (data: loginRequest) => void;
+}
+
+export default function LoginForm(props: LoginFormProps) {
 
     const {
         register,
@@ -24,8 +29,8 @@ export default function LoginForm() {
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log("Valid!", data);
+    const onSubmit = (data: loginRequest) => {
+        props.onSubmit(data);
     };
 
     return (
