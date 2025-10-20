@@ -6,6 +6,9 @@ export const authService = {
         return apiPost("/api/auth/login",{email,password});
     },
     logout : async () => {
-        return apiPost("/api/auth/logout",{});
+        return apiPost("/api/auth/logout",{},{credentials: 'include'});
+    },
+    me: async () => {
+        return apiFetch("/api/auth/me",{credentials: 'include'});
     }
 };
