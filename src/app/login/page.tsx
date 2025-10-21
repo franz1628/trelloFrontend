@@ -6,14 +6,19 @@ import { authService } from "@/lib/authService";
 import { loginRequest } from "@/types/loginRequest.type";
 import { User } from "@/types/user.type";
 import { SquareUserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function LoginPage() {
   
   const handleSubmit = async (data: loginRequest) => {
+    const router = useRouter();
     const user: User = await authService.login(data.email, data.password);
-    toast.success("Login successful!");
-    console.log(user);
+    
+    if(user){
+      router.push('/dashboard');
+    }
+
   };
 
   return (
